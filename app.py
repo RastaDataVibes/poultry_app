@@ -1,18 +1,16 @@
-from flask import Flask, render_template, request, redirect
-import psycopg2
 import os
+import psycopg2
+from flask import Flask, request, render_template, redirect
+
 
 app = Flask(__name__)
 
 # ✅ Database connection function
 def get_connection():
-    return psycopg2.connect(
-        host=os.getenv("DB_HOST", "localhost"),
-        dbname=os.getenv("DB_NAME", "poultry_business"),
-        user=os.getenv("DB_USER", "superset"),
-        password=os.getenv("DB_PASS", "superset"),
-        port=os.getenv("DB_PORT", "5432")
-    )
+    # ✅ Get database URL from Render environment variable
+    DATABASE_URL = os.environ.get("DATABASE_URL")
+    return psycopg2.connect(DATABASE_URL)
+
 
 # ================== HOME PAGE ==================
 @app.route("/")
